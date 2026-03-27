@@ -51,3 +51,67 @@ This web application displays lists of board games and their reviews. While anyo
   - username: bugs    |     password: bunny (user role)
   - username: daffy   |     password: duck  (manager role)
 5. You can also sign-up as a new user and customize your role to play with the application! 😊
+
+## End-to-End DevSecOps CI/CD Pipeline: Boardgame Application
+## 📌 Project Overview
+This project demonstrates the implementation of a complete, secure Corporate CI/CD Pipeline for a Java-based Boardgame web application. It covers the entire deployment lifecycle, from infrastructure provisioning on AWS to static code analysis, security vulnerability scanning, artifact management, and containerized deployment onto a Kubernetes cluster, fully monitored by Prometheus.
+
+## 🛠️ Technology Stack & Tools
+Cloud Provider: AWS (EC2)
+
+Version Control: Git & GitHub (kingpin1374/Boardgame)
+
+CI/CD Server: Jenkins
+
+Build Tool: Maven
+
+Static Code Analysis: SonarQube
+
+Artifact Repository: Sonatype Nexus
+
+Containerization: Docker & DockerHub
+
+Container Orchestration: Kubernetes (K8s)
+
+Security Scanning: Trivy, kube-bench
+
+Monitoring & Observability: Prometheus, Node Exporter, Blackbox Exporter
+
+## 🏗️ Phase 1: Infrastructure Architecture
+The underlying infrastructure was provisioned on AWS using t3.small and t3.micro EC2 instances distributed across the ap-south-1 region. The environment consists of dedicated servers to isolate CI/CD tools from the application runtime:
+
+Kubernetes Cluster: 1 Master Node, 2 Worker Nodes (Slave-1, Slave-2)
+
+CI/CD Servers: Dedicated instances for Jenkins, SonarQube, and Nexus.
+
+Monitoring Server: Dedicated instance for Prometheus and Exporters.
+
+Security: Initial cluster security benchmarking was performed using kube-bench to ensure CIS compliance.
+
+## 🚀 Phase 2 & 3: The CI/CD Pipeline Architecture
+The deployment process is fully automated via a Declarative Jenkins Pipeline with the following stages:
+
+Source Code Checkout: Pulls the latest commits from the private GitHub repository.
+
+Build & Unit Test: Compiles the application and runs unit tests using Maven.
+
+Security Scanning (SCA): Integrates Trivy to scan dependencies for known vulnerabilities before building the image.
+
+Static Code Analysis: Pushes code to SonarQube for quality gating. Current Quality Gate: Passed (0 Vulnerabilities).
+
+Artifact Management: Packages the application and securely uploads the build artifacts to the Nexus Repository.
+
+Dockerization: Builds the Docker image and pushes it to a centralized DockerHub registry.
+
+Kubernetes Deployment: Authenticates securely with the K8s cluster using Service Accounts and RBAC, deploying the application to the webapps namespace. Exposes the application via a NodePort service.
+
+## 📊 Phase 4: Monitoring & Observability
+Continuous monitoring is established to track both system metrics and application uptime:
+
+Prometheus: Acts as the central time-series database scraping metrics from deployed targets.
+
+Node Exporter: Installed on instances to monitor hardware and OS-level metrics (CPU, memory, disk).
+
+Blackbox Exporter: Configured to probe the application endpoints (HTTP 2xx) over the network to guarantee uptime and measure response times, capturing both successful connections and simulated context deadlines/failures.
+
+## Author: Aman Sharma
