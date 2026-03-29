@@ -9,6 +9,7 @@ pipeline {
     environment {
         // Ensure this matches the name in Global Tool Configuration
         SCANNER_HOME = tool 'sonar-scanner'
+        MAVEN_OPTS = "-Xmx512m"
     }
 
     stages {
