@@ -78,5 +78,10 @@ pipeline {
                 echo 'Pipeline completed successfully!'
             }
         }
+        stage('Success') {
+            steps {
+                echo 'Pipeline completed successfully!'
+            }
+        }
     }
 }
